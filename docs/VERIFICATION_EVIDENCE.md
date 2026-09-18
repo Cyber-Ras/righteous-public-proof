@@ -79,6 +79,16 @@ Additional regression coverage included:
 
 The embedding cache remains separate from canonical conversation history and can be rebuilt from that source data.
 
+### Binary Storage Refinement
+
+Stage 6 was later refined so validated candidate embeddings are stored as little-endian float64 binary payloads rather than JSON text.
+
+Controlled verification using 100 genuine candidate vectors measured a 40.17 percent reduction in vector payload size compared with the tested JSON representation. Tested vector values were preserved through encode/decode, and cosine results and ranking behavior remained unchanged.
+
+The cache remains derived and rebuildable rather than canonical memory. Malformed derived vectors are rejected before reuse, and valid source evidence can regenerate derived cache state.
+
+The verified migration path changes the storage representation without re-embedding source vectors. Targeted regression and runtime checks passed after the refinement.
+
 ## Controlled Synthetic Observation
 
 A separate sanitized observation used fictional data and isolated scratch storage to demonstrate four public-safe behaviors.
